@@ -1,0 +1,169 @@
+﻿@{
+    ViewData["Title"] = "Home page";
+}
+
+
+<!-- GRAPH JS START --><!-- GRAPH JS START --><!-- GRAPH JS START --><!-- GRAPH JS START --><!-- GRAPH JS START --><!-- GRAPH JS START --><!-- GRAPH JS START -->
+
+<div class="wrapper">
+    <div id="chart"></div>
+    <script src="plotly.js"></script>
+    <script>
+        var xmlhttp = new XMLHttpRequest();
+        var url = "Generator/GetStockWithTime";
+       
+        xmlhttp.onreadystatechange = function() {
+            var obj = JSON.parse(this.responseText);
+            myFunction(obj);
+        };
+        xmlhttp.open("GET", url, true);
+        xmlhttp.send();
+
+        var data = 0;
+        var time = 0;
+
+        function myFunction(_obj) {
+            data = _obj;
+            console.log(_obj);
+        }
+
+        function getData(i) {
+            return Math.sin(i);
+        }
+
+        function getTimeStamp() {
+            var date = new Date();
+            var parsedDate = date.getFullYear() + '-' + date.getMonth() + '-' + date.getDay() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+            return parsedDate;
+        }
+
+        var data = [{
+            y: [0],
+            x: [0],
+            type: "lines",
+            mode: "lines",
+            line: { color: '#17BECF' },
+            fill: 'tozeroy'
+        }];
+        
+        var layout = {
+            title: 'NZE: FNZ',
+            showlegend: false
+        };
+        
+        Plotly.newPlot('chart', data, layout, { displaylogo: false });
+        
+        var cnt = 1;
+        setInterval(function () {
+        
+            Plotly.extendTraces('chart', { y: [[data]], x: [[cnt]] }, [0]);
+
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var obj = JSON.parse(this.responseText);
+                    myFunction(obj);
+                }
+            };
+
+            xmlhttp.open("GET", url, true);
+            xmlhttp.send();
+
+
+            cnt++;
+            if (cnt > 30) {
+                Plotly.relayout('chart', {
+                    xaxis: {
+                        range: [cnt - 30, cnt]
+                    }
+                });
+            }
+        
+        }, 50);
+    </script>
+
+</div>
+
+<!-- GRAPH JS END --><!-- GRAPH JS END --><!-- GRAPH JS END --><!-- GRAPH JS END --><!-- GRAPH JS END --><!-- GRAPH JS END --><!-- GRAPH JS END --><!-- GRAPH JS END -->
+
+
+<div class="detailContainer">
+    <!-- CURRENT INFO START --><!-- CURRENT INFO START --><!-- CURRENT INFO START --><!-- CURRENT INFO START --><!-- CURRENT INFO START --><!-- CURRENT INFO START -->
+    Current Price: PlaceHolder
+    <br />
+    Current Trend: PlaceHolder
+    <br />
+    <!-- CURRENT INFO END --><!-- CURRENT INFO END --><!-- CURRENT INFO END --><!-- CURRENT INFO END --><!-- CURRENT INFO END --><!-- CURRENT INFO END --><!-- CURRENT INFO END -->
+    <!-- BUY BUTTON START --><!-- BUY BUTTON START --><!-- BUY BUTTON START --><!-- BUY BUTTON START --><!-- BUY BUTTON START --><!-- BUY BUTTON START --><!-- BUY BUTTON START -->
+
+    <button onclick="document.getElementById('idBuy').style.display='block'" style="width:auto;" class="d-none d-sm-block btn_1 home_page_btn">Buy</button>
+
+    <div id="idBuy" class="modal">
+
+        <form class="modal-content animate" action="/action_page.php" method="post">
+            <div class="imgcontainer">
+                <span onclick="document.getElementById('idBuy').style.display='none'" class="close" title="Close Modal">&times;</span>
+                <img src="img_avatar2.png" alt="Avatar" class="avatar">
+            </div>
+
+            <div class="container">
+                <label for="uname"><b>Amount</b></label>
+                <input type="text" placeholder="Enter The Amount" name="uname" required>
+
+                <button type="submit">Buy</button>
+            </div>
+
+            <div class="container" style="background-color:#f1f1f1">
+                <button type="button" onclick="document.getElementById('idBuy').style.display='none'" class="cancelbtn">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Get the modal
+        var modal = document.getElementById('idBuy');
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+    <!-- BUY BUTTON END --><!-- BUY BUTTON END --><!-- BUY BUTTON END --><!-- BUY BUTTON END --><!-- BUY BUTTON END --><!-- BUY BUTTON END --><!-- BUY BUTTON END -->
+    <!-- SELL BUTTON START --><!-- SELL BUTTON START --><!-- SELL BUTTON START --><!-- SELL BUTTON START --><!-- SELL BUTTON START --><!-- SELL BUTTON START -->
+    <button onclick="document.getElementById('idSell').style.display='block'" style="width:auto;" class="d-none d-sm-block btn_1 home_page_btn">Sell</button>
+
+    <div id="idSell" class="modal">
+
+        <form class="modal-content animate" action="/action_page.php" method="post">
+            <div class="imgcontainer">
+                <span onclick="document.getElementById('idSell').style.display='none'" class="close" title="Close Modal">&times;</span>
+                <img src="img_avatar2.png" alt="Avatar" class="avatar">
+            </div>
+
+            <div class="container">
+                <label for="uname"><b>Amount</b></label>
+                <input type="text" placeholder="Enter The Amount" name="uname" required>
+
+                <button type="submit">Sell</button>
+            </div>
+
+            <div class="container" style="background-color:#f1f1f1">
+                <button type="button" onclick="document.getElementById('idSell').style.display='none'" class="cancelbtn">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Get the modal
+        var modal = document.getElementById('id01');
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+    <!-- SELL BUTTON END --><!-- SELL BUTTON END --><!-- SELL BUTTON END --><!-- SELL BUTTON END --><!-- SELL BUTTON END --><!-- SELL BUTTON END --><!-- SELL BUTTON END -->
+</div>
