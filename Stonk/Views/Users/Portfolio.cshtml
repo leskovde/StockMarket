@@ -1,0 +1,48 @@
+﻿@model Stonk.Views.Users.PortfolioView
+
+@{
+    ViewData["Title"] = "Portfolio";
+}
+
+<h1>Portfolio</h1>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.user.isAdmin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.user.username)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.user.password)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @Html.DisplayFor(model => model.user.isAdmin)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.user.username)
+            </td>
+            <td>
+                @Html.DisplayFor(model => model.user.password)
+            </td>
+        </tr>
+        @foreach (var item in Model.shares)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.stocks.Where(x => x.id == item.stockId).First().company)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => Model.values.Where(x => x.stockId == Model.stocks.Where(x => x.id == item.stockId).First().id).First().value)
+                </td>
+                
+            </tr>
+        }
+    </tbody>
+</table>
